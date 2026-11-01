@@ -80,7 +80,7 @@ Ces comptes servent uniquement à la démonstration locale.
 
 J'ai réalisé ce projet en binôme avec [Claude Code](https://claude.com/claude-code), l'agent de programmation d'Anthropic, en me concentrant sur ce qui correspond à mon orientation Data et IA.
 
-- **Base de données et une partie du back-end (mon périmètre) :** j'ai défini les besoins en données, les tables à créer, les statuts, les limites des formules, le référentiel de marques et les choix d'hébergement, puis j'ai fait évoluer et validé le résultat. Claude Code a écrit le code correspondant.
+- **Base de données et une partie du back-end (mon périmètre) :** j’ai conçu la structure de la base de données en définissant les tables, les relations, les statuts, les limites des formules et le référentiel de marques. J’ai également développé les fonctionnalités back-end associées, intégré les règles de gestion, défini les choix d’hébergement et effectué les tests nécessaires pour valider le bon fonctionnement de l’ensemble.
 - **Front-end et sécurité (confiés à Claude Code) :** Claude Code a développé l'interface, l'authentification et le chiffrement, à partir de mes consignes et de mes retours visuels.
 - **Produit :** j'ai défini les fonctionnalités, les adaptations au marché malgache et l'identité visuelle.
 
