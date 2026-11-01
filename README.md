@@ -49,8 +49,6 @@ Place de marché automobile pour Madagascar : annonces de particuliers et de gar
 - **Base de données :** 33 tables, 7 fichiers de migration ; le prix de référence reste en Ariary, et le montant débité et le taux sont figés sur chaque paiement.
 - **Traductions typées :** TypeScript vérifie que le français et le malgache ont les mêmes clés.
 
-Le détail se trouve dans [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) et [docs/HEBERGEMENT.md](docs/HEBERGEMENT.md).
-
 ## Lancer le projet
 
 Prérequis : Node.js et npm.
