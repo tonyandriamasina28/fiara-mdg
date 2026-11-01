@@ -1,0 +1,11 @@
+node_modules/
+.next/
+apps/api/.data/
+apps/api/uploads/
+apps/api/.env
+*.tsbuildinfo
+next-env.d.ts
+apps/api/private/
+.claude/
+.mcp.json
+.env

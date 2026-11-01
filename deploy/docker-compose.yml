@@ -1,0 +1,71 @@
+# fiara.mdg sur un VPS IONOS (Ubuntu/Debian + Docker).
+#   cp deploy/.env.example deploy/.env   # puis remplir les secrets
+#   docker compose -f deploy/docker-compose.yml --env-file deploy/.env up -d --build
+#   docker compose -f deploy/docker-compose.yml --env-file deploy/.env run --rm api npm run migrate --workspace apps/api
+#
+# Seul Caddy est exposé (ports 80/443, HTTPS automatique). PostgreSQL, l'API et le site
+# ne sont joignables que sur le réseau Docker interne.
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    depends_on: [web, api]
+
+  web:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.web
+      args:
+        NEXT_PUBLIC_API_URL: https://${DOMAIN}/api
+    restart: unless-stopped
+    environment:
+      INTERNAL_API_URL: http://api:4000/api
+    depends_on: [api]
+
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.api
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://fiara:${POSTGRES_PASSWORD}@db:5432/fiara
+      WEB_ORIGIN: https://${DOMAIN}
+      PUBLIC_URL: https://${DOMAIN}
+      IDENTITY_STORAGE_DIR: /app/apps/api/private/identity
+    volumes:
+      - photos:/app/apps/api/uploads
+      - identity:/app/apps/api/private/identity   # volume séparé, jamais monté dans caddy ni web
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Option économique : PostgreSQL sur le même VPS, sans port publié.
+  # Option recommandée dès que possible : IONOS DBaaS PostgreSQL → supprimer ce service
+  # et renseigner DATABASE_URL (sslmode=require) dans .env.
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: fiara
+      POSTGRES_USER: fiara
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fiara -d fiara"]
+      interval: 10s
+      retries: 6
+
+volumes:
+  caddy_data:
+  pgdata:
+  photos:
+  identity:

@@ -1,0 +1,30 @@
+# Certificat HTTPS Let's Encrypt automatique pour {$DOMAIN}
+{$DOMAIN} {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+
+	# API et photos d'annonces (publiques). Les pièces d'identité n'ont AUCUNE route ici :
+	# elles ne sont lisibles que via /api/admin/verifications/:id/document (admin authentifié).
+	handle /api/* {
+		reverse_proxy api:4000
+	}
+	handle /uploads/* {
+		header Cache-Control "public, max-age=2592000, immutable"
+		reverse_proxy api:4000
+	}
+
+	handle {
+		reverse_proxy web:3000
+	}
+}
+
+www.{$DOMAIN} {
+	redir https://{$DOMAIN}{uri} permanent
+}
