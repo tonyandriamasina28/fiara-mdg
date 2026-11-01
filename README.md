@@ -78,7 +78,7 @@ Ces comptes servent uniquement à la démonstration locale.
 
 ## Développement avec Claude Code
 
-J'ai réalisé ce projet avec [Claude Code](https://claude.com/claude-code), l'agent de programmation d'Anthropic. J'ai défini le produit, les fonctionnalités, les adaptations au marché malgache et l'identité visuelle, puis j'ai fait évoluer et validé le résultat étape par étape. Claude Code a généré l'essentiel du code, du schéma de base de données et de la documentation technique.
+J'ai réalisé ce projet en binôme avec [Claude Code](https://claude.com/claude-code), l'agent de programmation d'Anthropic. J'ai défini le produit, les fonctionnalités, les adaptations au marché malgache et l'identité visuelle, puis j'ai dirigé et validé chaque itération. Claude Code a écrit l'essentiel de l'implémentation.
 
 ## Prochaines étapes
 
